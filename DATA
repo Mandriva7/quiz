@@ -1,0 +1,48 @@
+CREATE TABLE Salaries(
+  id number(*,0) NOT NULL,
+  employee_id number(*,0) NOT NULL,
+  project_id number(*,0) NOT NULL,
+  salary number(10,2) NOT NULL CHECK (salary > 1000),
+    CONSTRAINT Salaries_PK PRIMARY KEY (id)
+);
+
+CREATE TABLE Employees(
+  id number(*,0) NOT NULL,
+  manager_id number(*,0) NOT NULL,
+  date_of_joining date NOT NULL,
+  full_name varchar(255) NOT NULL,
+    CONSTRAINT Employees_PK PRIMARY KEY (id)
+);
+
+CREATE TABLE Projects(
+  id number(*,0) NOT NULL,
+  code varchar(255) NOT NULL,
+  manager_id number(*,0) NOT NULL,
+  budget number(10,2) NOT NULL,
+  date_of_beginning date NOT NULL,
+  date_of_ending date NOT NULL,
+    CONSTRAINT Projects_PK PRIMARY KEY (id)
+);
+
+alter table Salaries
+  add constraint FK_SALARY_EMPLOYEE
+  foreign key (employee_id)
+  references Employees (id);
+  
+  alter table Salaries
+  add constraint FK_SALARY_PROJECT
+  foreign key (project_id)
+  references Projects (id);
+--
+alter table Employees
+  add constraint FK_MANAGER
+  foreign key (manager_id)
+  references Employees (manager_id);
+
+--
+
+alter table Projects
+  add constraint FK_MANAGER_PROJECT
+  foreign key (manager_id)
+  references Employees (manager_id);
+  
